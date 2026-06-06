@@ -40,6 +40,14 @@ class FetchError(RuntimeError):
     """Raised when a source cannot be retrieved after the configured attempts."""
 
 
+class NotFound(FetchError):
+    """The resource returned HTTP 404.
+
+    For ``targetTc.json`` this is not an error condition: JMA does not always
+    serve the file when there is nothing active, so a 404 means "no typhoons".
+    """
+
+
 def _get(url: str, *, attempts: int = 3) -> bytes:
     """Fetch ``url`` and return the (decompressed) response body as bytes.
 
@@ -58,17 +66,27 @@ def _get(url: str, *, attempts: int = 3) -> bytes:
                 if resp.headers.get("Content-Encoding") == "gzip":
                     body = gzip.decompress(body)
                 return body
+        except urllib.error.HTTPError as exc:  # pragma: no cover - network
+            last_exc = exc
+            if exc.code == 404:
+                raise NotFound(f"not found: {url}") from exc
+            if 400 <= exc.code < 500:
+                break  # other 4xx are not worth retrying
         except (urllib.error.URLError, TimeoutError) as exc:  # pragma: no cover - network
             last_exc = exc
-            # 4xx are not worth retrying.
-            if isinstance(exc, urllib.error.HTTPError) and 400 <= exc.code < 500:
-                break
     raise FetchError(f"failed to fetch {url}: {last_exc}")
 
 
 def fetch_target_tc() -> list[dict]:
-    """Return the parsed ``targetTc.json`` list (empty when no typhoon is active)."""
-    raw = _get(TARGET_TC_URL)
+    """Return the parsed ``targetTc.json`` list (empty when no typhoon is active).
+
+    JMA serves this file inconsistently off-season — sometimes ``[]`` with HTTP
+    200, sometimes a 404. Both mean the same thing: nothing active.
+    """
+    try:
+        raw = _get(TARGET_TC_URL)
+    except NotFound:
+        return []
     data = json.loads(raw.decode("utf-8"))
     if not isinstance(data, list):
         raise FetchError(f"unexpected targetTc.json payload: {type(data).__name__}")

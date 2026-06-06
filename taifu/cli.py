@@ -55,7 +55,14 @@ def cmd_poll(args: argparse.Namespace) -> int:
 
 def poll(store: Store, *, verbose: bool = True) -> IngestResult:
     """Fetch sources, archive + ingest anything new, return an IngestResult."""
-    active_rows = sources.fetch_target_tc()
+    # The two sources are fetched independently: a hiccup in one (JMA 404s the
+    # bosai JSON fairly often) must never abort ingestion of the other.
+    try:
+        active_rows = sources.fetch_target_tc()
+    except sources.FetchError as exc:
+        if verbose:
+            print(f"warning: targetTc.json unavailable: {exc}", file=sys.stderr)
+        active_rows = []
     store.record_poll(active_rows)
     active = parse_target_tc(active_rows)
     result = IngestResult(active=active)
