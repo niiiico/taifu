@@ -1,0 +1,14 @@
+# The cached typhoon data under data/ is intentionally COMMITTED — that is how
+# the GitHub Actions poller persists state between ephemeral runs (and gives you
+# a versioned, off-site backup of the archive). Only local logs are ignored.
+data/*.log
+
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Scratch
+/tmp/

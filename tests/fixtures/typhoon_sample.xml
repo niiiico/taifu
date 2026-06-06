@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://xml.kishou.go.jp/jmaxml1/" xmlns:jmx="http://xml.kishou.go.jp/jmaxml1/">
+  <Control>
+    <Title>台風解析・予報情報（５日予報）（Ｈ３０）</Title>
+    <DateTime>2026-06-06T00:00:00Z</DateTime>
+    <Status>通常</Status>
+    <EditorialOffice>気象庁</EditorialOffice>
+    <PublishingOffice>気象庁</PublishingOffice>
+  </Control>
+  <Head xmlns="http://xml.kishou.go.jp/jmaxml1/informationBasis1/">
+    <Title>台風解析・予報情報（５日予報）</Title>
+    <ReportDateTime>2026-06-06T09:00:00+09:00</ReportDateTime>
+    <TargetDateTime>2026-06-06T09:00:00+09:00</TargetDateTime>
+    <InfoType>発表</InfoType>
+    <InfoKind>台風解析・予報情報</InfoKind>
+  </Head>
+  <Body xmlns="http://xml.kishou.go.jp/jmaxml1/body/meteorology1/"
+        xmlns:jmx_eb="http://xml.kishou.go.jp/jmaxml1/elementBasis1/">
+    <MeteorologicalInfos type="台風情報">
+      <MeteorologicalInfo>
+        <DateTime type="実況">2026-06-06T09:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Property>
+              <Type>呼称</Type>
+              <TyphoonNamePart>
+                <Name>JANGMI</Name>
+                <NameKana>チャンミー</NameKana>
+                <Number>2603</Number>
+                <Remark>大型で強い台風</Remark>
+              </TyphoonNamePart>
+            </Property>
+            <Property>
+              <Type>階級</Type>
+              <jmx_eb:TyphoonClass type="大きさの階級">大型</jmx_eb:TyphoonClass>
+              <jmx_eb:TyphoonClass type="強さの階級">強い</jmx_eb:TyphoonClass>
+            </Property>
+            <Property>
+              <Type>中心</Type>
+              <CenterPart>
+                <jmx_eb:Coordinate type="中心位置（度）" description="北緯２４度０分東経１３５度０分">+24.0+135.0/</jmx_eb:Coordinate>
+                <Location>日本の南</Location>
+                <jmx_eb:Direction type="移動方向" unit="16方位">北東</jmx_eb:Direction>
+                <jmx_eb:Speed type="移動速度" unit="km/h">20</jmx_eb:Speed>
+                <jmx_eb:Speed type="移動速度" unit="ノット">11</jmx_eb:Speed>
+                <jmx_eb:Pressure type="中心気圧" unit="hPa">990</jmx_eb:Pressure>
+              </CenterPart>
+            </Property>
+            <Property>
+              <Type>風</Type>
+              <WindPart>
+                <jmx_eb:WindSpeed type="最大風速" unit="m/s" condition="中心付近">30</jmx_eb:WindSpeed>
+                <jmx_eb:WindSpeed type="最大瞬間風速" unit="m/s">45</jmx_eb:WindSpeed>
+              </WindPart>
+            </Property>
+          </Kind>
+        </Item>
+      </MeteorologicalInfo>
+      <MeteorologicalInfo>
+        <DateTime type="予報">2026-06-07T09:00:00+09:00</DateTime>
+        <Item>
+          <Kind>
+            <Property>
+              <Type>中心</Type>
+              <CenterPart>
+                <jmx_eb:Coordinate type="中心位置（度）" description="北緯２８度０分東経１４０度０分">+28.0+140.0/</jmx_eb:Coordinate>
+                <jmx_eb:Direction type="移動方向" unit="16方位">北東</jmx_eb:Direction>
+                <jmx_eb:Speed type="移動速度" unit="km/h">30</jmx_eb:Speed>
+                <jmx_eb:Pressure type="中心気圧" unit="hPa">975</jmx_eb:Pressure>
+              </CenterPart>
+            </Property>
+            <Property>
+              <Type>風</Type>
+              <WindPart>
+                <jmx_eb:WindSpeed type="最大風速" unit="m/s" condition="中心付近">40</jmx_eb:WindSpeed>
+                <jmx_eb:WindSpeed type="最大瞬間風速" unit="m/s">60</jmx_eb:WindSpeed>
+              </WindPart>
+            </Property>
+          </Kind>
+        </Item>
+      </MeteorologicalInfo>
+    </MeteorologicalInfos>
+  </Body>
+</Report>

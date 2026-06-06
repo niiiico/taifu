@@ -1,0 +1,22 @@
+[project]
+name = "taifu"
+version = "0.1.0"
+description = "Cache JMA typhoon bulletins over time to detect intensification and slowing/stalling trends."
+readme = "README.md"
+requires-python = ">=3.10"
+# Zero runtime dependencies on purpose: the poller must run unattended under
+# cron/launchd for a whole season without a fragile dependency tree.
+dependencies = []
+
+[project.scripts]
+taifu = "taifu.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["taifu"]

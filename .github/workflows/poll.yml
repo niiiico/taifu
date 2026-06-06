@@ -1,0 +1,53 @@
+name: poll
+
+# Runs taifu on a schedule and persists the cache by committing it back to the
+# repo. The repo IS the database: each run checks out the accumulated history,
+# polls JMA for anything new, and commits the updated cache.
+on:
+  schedule:
+    # Hourly. JMA issues typhoon bulletins ~every 3h (hourly when near Japan),
+    # so this comfortably catches every update. GitHub may delay scheduled runs
+    # under load — that's fine, duplicate bulletins are de-duplicated.
+    - cron: "0 * * * *"
+  workflow_dispatch: {} # allow manual "Run workflow" from the Actions tab
+
+# Allow the job to push the updated cache back.
+permissions:
+  contents: write
+
+# Never let two polls run at once (a manual run + a scheduled run, say) and race
+# on the push.
+concurrency:
+  group: taifu-poll
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Poll JMA
+        run: uv run taifu poll --quiet
+
+      - name: Trend report → run summary
+        if: always()
+        run: uv run taifu report >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Commit updated cache
+        run: |
+          git config user.name "taifu-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No new data to commit."
+          else
+            git commit -m "data: poll $(date -u +%FT%TZ)"
+            # Re-sync in case anything landed since checkout, then push.
+            git pull --rebase --autostash
+            git push
+          fi
