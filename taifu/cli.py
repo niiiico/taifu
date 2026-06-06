@@ -156,18 +156,21 @@ def _print_trend_detail(t: Trend) -> None:
     if t.name:
         title += f" ({t.name})"
     print(title)
-    print(f"  observations: {t.n_obs} over {t.span_hours:.0f}h (window {t.window_hours:.0f}h)")
+    print(
+        f"  trend over last {t.span_hours:.0f}h "
+        f"({t.n_window} of {t.n_obs} obs; window {t.window_hours:.0f}h)"
+    )
 
     print(f"  intensity:    {_INTENSITY_LABEL[t.intensification]}")
     if t.pressure_delta is not None:
         rate = f", ~{t.pressure_rate_24h:+.0f} hPa/24h" if t.pressure_rate_24h is not None else ""
         print(
-            f"                central pressure {t.first.pressure_hpa} → {t.last.pressure_hpa} hPa "
+            f"                central pressure {t.ref.pressure_hpa} → {t.last.pressure_hpa} hPa "
             f"({t.pressure_delta:+d}{rate})"
         )
     if t.wind_delta is not None:
         print(
-            f"                max wind {t.first.max_wind_mps} → {t.last.max_wind_mps} m/s "
+            f"                max wind {t.ref.max_wind_mps} → {t.last.max_wind_mps} m/s "
             f"({t.wind_delta:+d})"
         )
     if t.grade_change:

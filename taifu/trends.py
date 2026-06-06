@@ -29,10 +29,12 @@ _SLOW_KMH = 15  # at/below this, "moving slowly"
 class Trend:
     number: str
     name: str
-    n_obs: int
+    n_obs: int  # total analysis observations available
+    n_window: int  # observations inside the comparison window
     span_hours: float
     window_hours: float
-    first: Observation
+    first: Observation  # oldest observation on record
+    ref: Observation  # the windowed reference (start of the comparison)
     last: Observation
     pressure_delta: Optional[int]  # last - reference; negative = deepening
     wind_delta: Optional[int]
@@ -70,7 +72,8 @@ def compute_trend(observations: list[Observation], *, window_hours: float = 24.0
     window_start = last_t - timedelta(hours=window_hours)
 
     # Reference = earliest observation still inside the window (else the oldest).
-    ref_t, ref = next(((t, o) for t, o in obs if t >= window_start), obs[0])
+    in_window = [(t, o) for t, o in obs if t >= window_start]
+    ref_t, ref = in_window[0] if in_window else obs[0]
     span_hours = (last_t - ref_t).total_seconds() / 3600.0
 
     pressure_delta = _delta(ref.pressure_hpa, last.pressure_hpa)
@@ -85,9 +88,11 @@ def compute_trend(observations: list[Observation], *, window_hours: float = 24.0
         number=last.typhoon_number,
         name=last.name or first.name,
         n_obs=len(obs),
+        n_window=len(in_window) or 1,
         span_hours=span_hours,
         window_hours=window_hours,
         first=first,
+        ref=ref,
         last=last,
         pressure_delta=pressure_delta,
         wind_delta=wind_delta,

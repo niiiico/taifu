@@ -1,5 +1,7 @@
 # Changelog
 
+2026-06-07 - report: render the windowed reference observation so the printed "from → to" values match the reported delta (previously mixed the overall-first value with a windowed delta). Header now shows obs-in-window.
+
 2026-06-07 - Made polling resilient: treat a 404 on targetTc.json as "no active typhoons" (JMA serves it inconsistently off-season) and fetch the two sources independently so one failing never aborts the other. Fixes intermittent GitHub Actions failures.
 
 
