@@ -2,19 +2,19 @@
 <Report xmlns="http://xml.kishou.go.jp/jmaxml1/" xmlns:jmx="http://xml.kishou.go.jp/jmaxml1/" xmlns:jmx_add="http://xml.kishou.go.jp/jmaxml1/addition1/">
 <Control>
 <Title>台風解析・予報情報（５日予報）（Ｈ３０）</Title>
-<DateTime>2026-06-23T03:15:21Z</DateTime>
+<DateTime>2026-06-23T04:06:24Z</DateTime>
 <Status>通常</Status>
 <EditorialOffice>気象庁本庁</EditorialOffice>
 <PublishingOffice>気象庁</PublishingOffice>
 </Control>
 <Head xmlns="http://xml.kishou.go.jp/jmaxml1/informationBasis1/">
 <Title>台風解析・予報情報</Title>
-<ReportDateTime>2026-06-23T10:30:00+09:00</ReportDateTime>
-<TargetDateTime>2026-06-23T09:00:00+09:00</TargetDateTime>
+<ReportDateTime>2026-06-23T13:10:00+09:00</ReportDateTime>
+<TargetDateTime>2026-06-23T12:00:00+09:00</TargetDateTime>
 <TargetDuration>PT120H</TargetDuration>
 <EventID>TC2609</EventID>
-<InfoType>訂正</InfoType>
-<Serial>5</Serial>
+<InfoType>発表</InfoType>
+<Serial>6</Serial>
 <InfoKind>台風解析・予報情報（５日予報）</InfoKind>
 <InfoKindVersion>1.0_2</InfoKindVersion>
 <Headline>
@@ -24,7 +24,7 @@
 <Body xmlns="http://xml.kishou.go.jp/jmaxml1/body/meteorology1/" xmlns:jmx_eb="http://xml.kishou.go.jp/jmaxml1/elementBasis1/">
 <MeteorologicalInfos type="台風情報">
 <MeteorologicalInfo>
-<DateTime type="実況">2026-06-23T09:00:00+09:00</DateTime>
+<DateTime type="実況">2026-06-23T12:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
@@ -33,7 +33,7 @@
 <Name>HIGOS</Name>
 <NameKana>ヒーゴス</NameKana>
 <Number>2608</Number>
-<Remark>台風発生</Remark>
+<Remark/>
 </TyphoonNamePart>
 </Property>
 </Kind>
@@ -51,8 +51,8 @@
 <Property>
 <Type>中心</Type>
 <CenterPart>
-<jmx_eb:Coordinate description="北緯１４．９度東経１４５．９度" condition="不確実" type="中心位置（度）">+14.9+145.9/</jmx_eb:Coordinate>
-<jmx_eb:Coordinate description="北緯１４度５５分東経１４５度５５分" condition="不確実" type="中心位置（度分）">+1455+14555/</jmx_eb:Coordinate>
+<jmx_eb:Coordinate description="北緯１４．６度東経１４５．５度" condition="不確実" type="中心位置（度）">+14.6+145.5/</jmx_eb:Coordinate>
+<jmx_eb:Coordinate description="北緯１４度３５分東経１４５度３０分" condition="不確実" type="中心位置（度分）">+1435+14530/</jmx_eb:Coordinate>
 <Location>マリアナ諸島</Location>
 <jmx_eb:Direction unit="１６方位漢字" type="移動方向">西</jmx_eb:Direction>
 <jmx_eb:Speed description="８ノット" unit="ノット" type="移動速度">8</jmx_eb:Speed>
@@ -101,8 +101,8 @@
 <Area>
 <Name>熱帯低気圧</Name>
 <jmx_eb:Circle type="強風域">
-<jmx_eb:BasePoint description="北緯１４．９度東経１４５．９度" type="中心位置（度）">+14.9+145.9/</jmx_eb:BasePoint>
-<jmx_eb:BasePoint description="北緯１４度５５分東経１４５度５５分" type="中心位置（度分）">+1455+14555/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１４．６度東経１４５．５度" type="中心位置（度）">+14.6+145.5/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１４度３５分東経１４５度３０分" type="中心位置（度分）">+1435+14530/</jmx_eb:BasePoint>
 <jmx_eb:Axes>
 <jmx_eb:Axis>
 <jmx_eb:Direction description="全域" condition="全域" unit="８方位漢字" type="方向"/>
@@ -115,7 +115,7 @@
 </Item>
 </MeteorologicalInfo>
 <MeteorologicalInfo>
-<DateTime type="予報　２４時間後">2026-06-24T09:00:00+09:00</DateTime>
+<DateTime type="予報　２４時間後">2026-06-24T12:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
@@ -131,8 +131,8 @@
 <Type>中心</Type>
 <CenterPart>
 <ProbabilityCircle type="予報円">
-<jmx_eb:BasePoint description="北緯１６．２度東経１４２．１度" type="中心位置（度）">+16.2+142.1/</jmx_eb:BasePoint>
-<jmx_eb:BasePoint description="北緯１６度１０分東経１４２度０５分" type="中心位置（度分）">+1610+14205/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１６．５度東経１４１．５度" type="中心位置（度）">+16.5+141.5/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１６度３０分東経１４１度３０分" type="中心位置（度分）">+1630+14130/</jmx_eb:BasePoint>
 <jmx_eb:Axes>
 <jmx_eb:Axis>
 <jmx_eb:Direction description="全域" condition="全域" unit="８方位漢字" type="方向"/>
@@ -143,7 +143,7 @@
 </ProbabilityCircle>
 <Location>マリアナ諸島</Location>
 <jmx_eb:Direction unit="１６方位漢字" type="移動方向">西北西</jmx_eb:Direction>
-<jmx_eb:Speed description="１０ノット" unit="ノット" type="移動速度">10</jmx_eb:Speed>
+<jmx_eb:Speed description="１１ノット" unit="ノット" type="移動速度">11</jmx_eb:Speed>
 <jmx_eb:Speed description="毎時２０キロ" unit="km/h" type="移動速度">20</jmx_eb:Speed>
 <jmx_eb:Pressure description="中心気圧１００２ヘクトパスカル" unit="hPa" type="中心気圧">1002</jmx_eb:Pressure>
 </CenterPart>
@@ -176,8 +176,8 @@
 <Area>
 <Name>熱帯低気圧</Name>
 <jmx_eb:Circle type="予報円">
-<jmx_eb:BasePoint description="北緯１６．２度東経１４２．１度" type="中心位置（度）">+16.2+142.1/</jmx_eb:BasePoint>
-<jmx_eb:BasePoint description="北緯１６度１０分東経１４２度０５分" type="中心位置（度分）">+1610+14205/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１６．５度東経１４１．５度" type="中心位置（度）">+16.5+141.5/</jmx_eb:BasePoint>
+<jmx_eb:BasePoint description="北緯１６度３０分東経１４１度３０分" type="中心位置（度分）">+1630+14130/</jmx_eb:BasePoint>
 <jmx_eb:Axes>
 <jmx_eb:Axis>
 <jmx_eb:Direction description="全域" condition="全域" unit="８方位漢字" type="方向"/>
@@ -190,7 +190,7 @@
 </Item>
 </MeteorologicalInfo>
 <MeteorologicalInfo>
-<DateTime type="予報　４８時間後">2026-06-25T09:00:00+09:00</DateTime>
+<DateTime type="予報　４５時間後">2026-06-25T09:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
@@ -265,7 +265,7 @@
 </Item>
 </MeteorologicalInfo>
 <MeteorologicalInfo>
-<DateTime type="予報　７２時間後">2026-06-26T09:00:00+09:00</DateTime>
+<DateTime type="予報　６９時間後">2026-06-26T09:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
@@ -340,7 +340,7 @@
 </Item>
 </MeteorologicalInfo>
 <MeteorologicalInfo>
-<DateTime type="予報　９６時間後">2026-06-27T09:00:00+09:00</DateTime>
+<DateTime type="予報　９３時間後">2026-06-27T09:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
@@ -415,7 +415,7 @@
 </Item>
 </MeteorologicalInfo>
 <MeteorologicalInfo>
-<DateTime type="予報　１２０時間後">2026-06-28T09:00:00+09:00</DateTime>
+<DateTime type="予報　１１７時間後">2026-06-28T09:00:00+09:00</DateTime>
 <Item>
 <Kind>
 <Property>
