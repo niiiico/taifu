@@ -6,10 +6,14 @@ name: poll
 # renders the cache into a static site and publishes it to GitHub Pages.
 on:
   schedule:
-    # Hourly. JMA issues typhoon bulletins ~every 3h (hourly when near Japan),
-    # so this comfortably catches every update. GitHub may delay scheduled runs
-    # under load — that's fine, duplicate bulletins are de-duplicated.
-    - cron: "0 * * * *"
+    # Every 30 minutes, at :05 and :35 to dodge the top-of-hour pileup when
+    # everyone's `0 * * * *` jobs contend for runners. GitHub runs scheduled
+    # workflows on a best-effort basis and frequently delays (or drops) them
+    # under load, so polling more often than strictly needed keeps the cache —
+    # and the published site — fresh despite that slippage. JMA issues typhoon
+    # bulletins ~every 3h (hourly when near Japan); duplicate bulletins are
+    # de-duplicated, so the extra runs are cheap and harmless.
+    - cron: "5,35 * * * *"
   workflow_dispatch: {} # allow manual "Run workflow" from the Actions tab
 
 # contents:write lets the poll job push the updated cache; pages/id-token let the
