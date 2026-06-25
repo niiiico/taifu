@@ -172,6 +172,27 @@ class Store:
         )
         return [Observation(**dict(row)) for row in cur.fetchall()]
 
+    def latest_active(self) -> list["ActiveTyphoon"]:
+        """Active typhoons from the most recent poll (empty if none recorded).
+
+        This reflects ``targetTc.json`` at the last poll — i.e. what JMA still
+        lists as a live tropical cyclone — so the site can flag storms that have
+        since dissipated separately from those still being tracked.
+        """
+        from .parse import parse_target_tc
+
+        cur = self._conn.execute(
+            "SELECT active_json FROM polls ORDER BY fetched_at DESC LIMIT 1"
+        )
+        row = cur.fetchone()
+        if row is None:
+            return []
+        try:
+            rows = json.loads(row[0])
+        except (ValueError, TypeError):
+            return []
+        return parse_target_tc(rows)
+
     def latest_name(self, typhoon_number: str) -> Optional[str]:
         cur = self._conn.execute(
             "SELECT name FROM observations WHERE typhoon_number = ? AND name <> '' "

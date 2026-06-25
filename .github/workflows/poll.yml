@@ -2,7 +2,8 @@ name: poll
 
 # Runs taifu on a schedule and persists the cache by committing it back to the
 # repo. The repo IS the database: each run checks out the accumulated history,
-# polls JMA for anything new, and commits the updated cache.
+# polls JMA for anything new, and commits the updated cache. A second job then
+# renders the cache into a static site and publishes it to GitHub Pages.
 on:
   schedule:
     # Hourly. JMA issues typhoon bulletins ~every 3h (hourly when near Japan),
@@ -11,9 +12,12 @@ on:
     - cron: "0 * * * *"
   workflow_dispatch: {} # allow manual "Run workflow" from the Actions tab
 
-# Allow the job to push the updated cache back.
+# contents:write lets the poll job push the updated cache; pages/id-token let the
+# deploy job publish to GitHub Pages.
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 # Never let two polls run at once (a manual run + a scheduled run, say) and race
 # on the push.
@@ -51,3 +55,35 @@ jobs:
             git pull --rebase --autostash
             git push
           fi
+
+  # Render the (now up-to-date) cache into a static site and publish it.
+  # Runs after the poll so the page always reflects the latest bulletin. The
+  # generated HTML is NOT committed — it is uploaded as a Pages artifact — so the
+  # data history stays a clean record of JMA payloads only.
+  pages:
+    needs: poll
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The poll job just pushed; grab that commit, not the stale ref.
+          ref: ${{ github.ref }}
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Build site
+        run: uv run taifu html --out site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

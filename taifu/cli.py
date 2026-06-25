@@ -7,6 +7,7 @@ Subcommands
 ``report``  Print the intensification / slowing trend for each tracked typhoon.
 ``list``    List typhoons present in the local store.
 ``show``    Print the analysis time series for one typhoon number.
+``html``    Render the store into a static HTML site (for GitHub Pages).
 """
 
 from __future__ import annotations
@@ -230,6 +231,24 @@ def _fmt(value) -> str:
     return "-" if value is None else str(value)
 
 
+# --- html --------------------------------------------------------------------
+
+
+def cmd_html(args: argparse.Namespace) -> int:
+    from datetime import datetime, timezone
+
+    from .render import render_site
+
+    out_dir = Path(args.out)
+    generated_at = datetime.now(timezone.utc).isoformat()
+    with _store_from_args(args) as store:
+        written = render_site(
+            store, out_dir, generated_at=generated_at, window_hours=args.window
+        )
+    print(f"Wrote {len(written)} page(s) to {out_dir}/ (open {out_dir / 'index.html'}).")
+    return 0
+
+
 # --- entry point -------------------------------------------------------------
 
 
@@ -267,6 +286,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_show.add_argument("number", help="JMA typhoon number, e.g. 2603.")
     p_show.set_defaults(func=cmd_show)
+
+    p_html = sub.add_parser(
+        "html", parents=[common], help="Generate a static HTML site (for GitHub Pages)."
+    )
+    p_html.add_argument(
+        "--out", default="site", help="Output directory for the site (default: ./site)."
+    )
+    p_html.add_argument(
+        "--window", type=float, default=24.0, help="Trend comparison window in hours (default 24)."
+    )
+    p_html.set_defaults(func=cmd_html)
 
     return parser
 

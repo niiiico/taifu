@@ -48,6 +48,10 @@ uv run taifu report --window 12      # compare over the last 12h instead of 24h
 # Inspect the store.
 uv run taifu list
 uv run taifu show 2603               # full analysis time series for typhoon #2603
+
+# Build a static HTML site from the cache (for GitHub Pages / a browser).
+uv run taifu html                    # writes ./site/index.html + per-storm pages
+uv run taifu html --out public       # choose the output directory
 ```
 
 Data lives under `./data` by default (override with `--data-dir` or
@@ -88,6 +92,25 @@ Two caveats:
   that timer. For a typhoon tool that mostly matters Jun–Oct, just re-enable it
   each season from the Actions tab — or have the commit step push with a
   Personal Access Token if you want it to stay alive year-round.
+
+### Web pages (GitHub Pages)
+
+`taifu html` renders the cache into a small static site you can read in a
+browser: an overview page (each storm's current pressure / wind / position and
+the intensifying-or-stalling verdict) and a per-storm page with the full
+analysis history and inline sparklines. It's plain HTML with inline CSS and
+SVG — no JavaScript, no CDN, no build step — so GitHub Pages serves it as-is.
+
+The [`poll.yml`](.github/workflows/poll.yml) workflow already builds and
+publishes it after each hourly poll, so the page always reflects the latest
+bulletin. The generated HTML is **not** committed — it's uploaded as a Pages
+artifact — so `data/` stays a clean record of JMA payloads only.
+
+To turn it on, enable Pages once: **Settings → Pages → Build and deployment →
+Source: GitHub Actions**. The site then appears at
+`https://<user>.github.io/<repo>/` (the workflow run also links it under its
+**Deploy** step). To preview locally, just open `site/index.html` after running
+`uv run taifu html`.
 
 ### Option B — launchd / cron on your own machine
 
