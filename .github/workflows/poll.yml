@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -89,5 +89,18 @@ jobs:
         with:
           path: site
 
-      - id: deploy
+      # actions/deploy-pages intermittently fails with GitHub's server-side
+      # "Deployment failed, try again later." — a transient Pages-backend flake,
+      # not a config error (the artifact uploads fine and the deployment is
+      # created; only the status poll fails). A single retry clears virtually
+      # all of these. If both attempts fail, the job still goes red so a real
+      # outage isn't masked.
+      - name: Deploy to Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Deploy to Pages (retry once)
+        id: deploy_retry
+        if: steps.deploy.outcome == 'failure'
         uses: actions/deploy-pages@v4
