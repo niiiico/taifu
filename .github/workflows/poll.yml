@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy_retry1.outputs.page_url || steps.deploy_retry2.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -92,15 +92,30 @@ jobs:
       # actions/deploy-pages intermittently fails with GitHub's server-side
       # "Deployment failed, try again later." — a transient Pages-backend flake,
       # not a config error (the artifact uploads fine and the deployment is
-      # created; only the status poll fails). A single retry clears virtually
-      # all of these. If both attempts fail, the job still goes red so a real
-      # outage isn't masked.
+      # created; only the *status* comes back failed). That bad window lasts
+      # longer than a few seconds, so an immediate retry lands in the same
+      # outage and fails identically. We instead retry with growing back-off
+      # (60s, then 120s) to give the backend time to recover. If all three
+      # attempts fail the job still goes red, preserving the signal for a real
+      # outage.
       - name: Deploy to Pages
         id: deploy
         uses: actions/deploy-pages@v4
         continue-on-error: true
 
-      - name: Deploy to Pages (retry once)
-        id: deploy_retry
+      - name: Back off before retry 1
         if: steps.deploy.outcome == 'failure'
+        run: sleep 60
+      - name: Deploy to Pages (retry 1)
+        id: deploy_retry1
+        if: steps.deploy.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Back off before retry 2
+        if: steps.deploy.outcome == 'failure' && steps.deploy_retry1.outcome == 'failure'
+        run: sleep 120
+      - name: Deploy to Pages (retry 2)
+        id: deploy_retry2
+        if: steps.deploy.outcome == 'failure' && steps.deploy_retry1.outcome == 'failure'
         uses: actions/deploy-pages@v4
