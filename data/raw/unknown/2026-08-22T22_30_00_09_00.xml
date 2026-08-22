@@ -2,19 +2,19 @@
 <Report xmlns="http://xml.kishou.go.jp/jmaxml1/" xmlns:jmx="http://xml.kishou.go.jp/jmaxml1/">
 <Control>
 <Title>台風の暴風域に入る確率</Title>
-<DateTime>2026-08-22T12:53:05Z</DateTime>
+<DateTime>2026-08-22T13:28:04Z</DateTime>
 <Status>通常</Status>
 <EditorialOffice>気象庁本庁</EditorialOffice>
 <PublishingOffice>気象庁</PublishingOffice>
 </Control>
 <Head xmlns="http://xml.kishou.go.jp/jmaxml1/informationBasis1/">
 <Title>台風の暴風域に入る確率</Title>
-<ReportDateTime>2026-08-22T21:55:00+09:00</ReportDateTime>
+<ReportDateTime>2026-08-22T22:30:00+09:00</ReportDateTime>
 <TargetDateTime>2026-08-22T21:00:00+09:00</TargetDateTime>
 <TargetDuration>PT120H</TargetDuration>
-<EventID>TC2622</EventID>
+<EventID>TC2624</EventID>
 <InfoType>発表</InfoType>
-<Serial>11</Serial>
+<Serial>1</Serial>
 <InfoKind>台風の暴風域に入る確率</InfoKind>
 <InfoKindVersion>1.4_0</InfoKindVersion>
 <Headline>
@@ -30,9 +30,9 @@
 <Property>
 <Type>呼称</Type>
 <TyphoonNamePart>
-<Name>NARRA</Name>
-<NameKana>ナーラ</NameKana>
-<Number>2619</Number>
+<Name/>
+<NameKana/>
+<Number/>
 </TyphoonNamePart>
 </Property>
 </Kind>
